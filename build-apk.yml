@@ -15,6 +15,14 @@ jobs:
       - run: npm install
       - run: mkdir -p www && cp index.html style.css *.js manifest.webmanifest logo.png icon-192.png icon-512.png www/
       - run: npx cap add android
+      - run: |
+          mkdir -p assets
+          cp icon-1024.png assets/icon-only.png
+          cp icon-foreground-1024.png assets/icon-foreground.png
+          cp splash-2732.png assets/splash.png
+          cp splash-2732.png assets/splash-dark.png
+          npx --yes @capacitor/assets generate --android --iconBackgroundColor '#000000' --iconBackgroundColorDark '#000000' --splashBackgroundColor '#000000' --splashBackgroundColorDark '#000000'
+        continue-on-error: true
       - run: npx cap sync android
       - run: cd android && chmod +x gradlew && ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4

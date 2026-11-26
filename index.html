@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div id="splash" style="position:fixed;inset:0;background:#000;z-index:100"><img src="logo.png" alt="LoopX"><div class="bar"><i></i></div><p>Your n8n automation hub</p></div>
 <aside id="drawer">
   <div class="brandrow"><div class="brand"><span>LoopX</span></div><button id="closeL" class="round" data-ico="x"></button></div>
   <button class="newbill" data-go="chat" data-new="1"><i data-ico="plus"></i><span><b>New Chat</b><small>Send to your automation</small></span></button>
@@ -38,6 +39,6 @@
   <label>n8n webhook URL<input id="fUrl" inputmode="url" placeholder="http://192.168.1.20:5678/webhook/loopx"></label>
   <label>Access token (optional)<input id="fTok" placeholder="Sent as Bearer token"></label>
   <div class="btns"><button value="cancel">Cancel</button><button class="primary" id="fSave" value="ok">Save</button></div></form></dialog>
-<script src="util.js"></script><script src="storage.js"></script><script src="workflow.js"></script><script src="n8n.js"></script><script src="dashboard.js"></script><script src="chat.js"></script><script src="sidebar.js"></script><script src="screens.js"></script><script src="voice.js"></script><script src="backup.js"></script><script src="main.js"></script>
+<script src="util.js"></script><script src="storage.js"></script><script src="workflow.js"></script><script src="n8n.js"></script><script src="dashboard.js"></script><script src="chat.js"></script><script src="sidebar.js"></script><script src="screens.js"></script><script src="voice.js"></script><script src="backup.js"></script><script src="splash.js"></script><script src="main.js"></script>
 </body>
 </html>

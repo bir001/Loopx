@@ -55,3 +55,8 @@ Response JSON: `{reply?, dashboard?}` (also accepts output/text/message/data, ar
 
 ## Ideas not built yet
 Per-automation dashboard layouts, file/image attach, streaming replies, scheduled runs, push notifications, PIN lock.
+
+## Splash + icons (added)
+- `splash.js` + `#splash` div (first thing in body) = animated in-app splash (1.7s), styles in the "polish layer" at the end of style.css.
+- Native Android icon/splash: workflow step runs `@capacitor/assets` using `icon-1024.png`, `icon-foreground-1024.png`, `splash-2732.png` (all black bg). Step has `continue-on-error` so a failure only falls back to default icons.
+- APK is NOT stored in the repo: `android/` is generated in CI. Download from Actions > run > Artifacts > LoopX-apk.

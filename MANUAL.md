@@ -107,3 +107,9 @@ Respond to Webhook node me ye JSON bhejo:
 | Jawab aa raha par dashboard nahi | JSON me `dashboard` key hai? Valid JSON hai? |
 | Mic nahi dikh raha | Is phone ka browser/WebView voice support nahi karta, baaki app chalega |
 | Data gaya | Drawer → Backup → Import se purani backup file lo |
+
+---
+
+## APK kahan milti hai (important)
+Repo me `android` ya `src` folder nahi dikhega, ye normal hai. Wo GitHub apne server par banata hai.
+Actions tab → upar wali run (hara tick) kholo → bilkul neeche **Artifacts** → **LoopX-apk** dabao → zip download → andar `app-debug.apk`.
