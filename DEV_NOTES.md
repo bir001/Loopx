@@ -23,6 +23,7 @@ Chat-style hub for the user's local n8n. Static site (GitHub Pages) + Android AP
 | chat.js | `Chat` centre screen: render, bubble (View output + Copy), send |
 | sidebar.js | `THEMES`, `Sidebar` (theme apply, drawer history), `Sheet` (right output panel) |
 | screens.js | `Home`, `Flows` (list, edit dialog, test, connect guide), `Outs` |
+| wizard.js | `Wizard` 3-step connect dialog (`#wiz`), builds URL from IP, tests via N8N.send, `hint()` turns errors into plain-English fixes |
 | voice.js | mic -> SpeechRecognition (lang en-IN) |
 | backup.js | export / import `Store.d` |
 | main.js | `Main` router `go()`, `refresh()`, `bind()`, init |
@@ -56,7 +57,10 @@ Response JSON: `{reply?, dashboard?}` (also accepts output/text/message/data, ar
 ## Ideas not built yet
 Per-automation dashboard layouts, file/image attach, streaming replies, scheduled runs, push notifications, PIN lock.
 
-## Splash + icons (added)
-- `splash.js` + `#splash` div (first thing in body) = animated in-app splash (1.7s), styles in the "polish layer" at the end of style.css.
-- Native Android icon/splash: workflow step runs `@capacitor/assets` using `icon-1024.png`, `icon-foreground-1024.png`, `splash-2732.png` (all black bg). Step has `continue-on-error` so a failure only falls back to default icons.
-- APK is NOT stored in the repo: `android/` is generated in CI. Download from Actions > run > Artifacts > LoopX-apk.
+## Splash + icons + APK build
+- Icon = `icon-1024.png` (glowing infinity in circle). `icon-192/512.png` for PWA/favicon/in-app splash. `logo.png` (wordmark) only in Home hero.
+- In-app splash: `splash.js` + `#splash` div + "polish layer" CSS. Background colour = corner pixel of the icon.
+- Native Android icon/splash: `brand_android.py` (runs in CI after `cap add android`) writes mipmap launcher/round/foreground PNGs, `ic_launcher_background.xml`, `drawable/splash.xml` (layer-list, centred logo) and patches `styles.xml` for the Android 12 splash. It deletes same-name files of other extensions first.
+- build-apk.yml: if the branded build fails, a FALLBACK step rebuilds with default icon so an APK always exists. Output is `loopx.apk`, uploaded as artifact AND attached to GitHub Release tag `loopx-latest` (needs `permissions: contents: write`).
+- User must paste build-apk.yml text into `.github/workflows/build-apk.yml` by hand whenever it changes (phone upload cannot write dot-folders).
+- Never tested on a device by Claude. If a build fails, ask for the red step name/screenshot.

@@ -39,22 +39,24 @@ Phone ke liye URL ban gaya: `http://192.168.1.20:5678/webhook/loopx`
 
 ## Part 3: APK download aur install
 
-1. Repo ka **Actions** tab kholo. "Build LoopX APK" chal raha hoga (3-5 minute).
-2. Hara tick aane par us run ko kholo. Neeche **Artifacts → LoopX-apk** dabao. Download hoga.
-3. Zip kholo. Andar `app-debug.apk` milegi.
+1. Repo ke **Actions** tab me "Build LoopX APK" chalega (3-5 minute). Hara tick aane ka intezar karo.
+2. Repo ke main page par **Releases** (right side ya "Code" tab ke neeche) kholo → **LoopX latest APK**.
+3. **loopx.apk** par tap karo, download hoga. (Wahi file har nayi build par update hoti hai.)
 4. APK par tap karo → "Install unknown apps" allow karo → Install.
+
+Agar run par **lal cross** aaye: run kholo, lal step ka naam aur screenshot mujhe bhejo.
 
 ---
 
-## Part 4: App me n8n jodo
+## Part 4: App me n8n jodo (guided setup)
 
-1. LoopX kholo → neeche **Flows** tab.
-2. **+ Connect** dabao.
-3. Name likho (jaise "Lead follow-up"), webhook URL paste karo (Part 1 ka phone wala URL). Token optional hai.
-4. **Save** → phir **Test** dabao. Hara dot aur "Connected" aaye to sab theek.
-5. Beech ke **+** button se **New Chat** kholo aur message bhejo.
+1. LoopX kholo → neeche **Flows** tab → **Start guided setup** dabao.
+2. **Step 1:** starter workflow n8n me import karke **Active** karo (upar Part 1).
+3. **Step 2:** computer ka IP likho (Windows: Win+R → `cmd` → `ipconfig` → IPv4 Address). Phone ke Chrome me `http://IP:5678` khol kar check karo, n8n ka page khule to IP sahi hai.
+4. **Step 3:** **Test** dabao. Hara box aaye to **Save**. Red box aaye to usme likha hai kya theek karna hai.
+5. Save ke baad seedha chat khul jati hai, message bhejo.
 
-Jitne chaho utne automations jodo. Har ek ke liye alag webhook URL.
+> Browser (github.io) se `http://IP` nahi chalega. Wahan sirf https tunnel URL chalta hai. Phone ke liye APK app use karo.
 
 ---
 

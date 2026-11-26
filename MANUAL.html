@@ -35,21 +35,24 @@
 <hr />
 <h2>Part 3: APK download aur install</h2>
 <ol>
-<li>Repo ka <strong>Actions</strong> tab kholo. "Build LoopX APK" chal raha hoga (3-5 minute).</li>
-<li>Hara tick aane par us run ko kholo. Neeche <strong>Artifacts → LoopX-apk</strong> dabao. Download hoga.</li>
-<li>Zip kholo. Andar <code>app-debug.apk</code> milegi.</li>
+<li>Repo ke <strong>Actions</strong> tab me "Build LoopX APK" chalega (3-5 minute). Hara tick aane ka intezar karo.</li>
+<li>Repo ke main page par <strong>Releases</strong> (right side ya "Code" tab ke neeche) kholo → <strong>LoopX latest APK</strong>.</li>
+<li><strong>loopx.apk</strong> par tap karo, download hoga. (Wahi file har nayi build par update hoti hai.)</li>
 <li>APK par tap karo → "Install unknown apps" allow karo → Install.</li>
 </ol>
+<p>Agar run par <strong>lal cross</strong> aaye: run kholo, lal step ka naam aur screenshot mujhe bhejo.</p>
 <hr />
-<h2>Part 4: App me n8n jodo</h2>
+<h2>Part 4: App me n8n jodo (guided setup)</h2>
 <ol>
-<li>LoopX kholo → neeche <strong>Flows</strong> tab.</li>
-<li><strong>+ Connect</strong> dabao.</li>
-<li>Name likho (jaise "Lead follow-up"), webhook URL paste karo (Part 1 ka phone wala URL). Token optional hai.</li>
-<li><strong>Save</strong> → phir <strong>Test</strong> dabao. Hara dot aur "Connected" aaye to sab theek.</li>
-<li>Beech ke <strong>+</strong> button se <strong>New Chat</strong> kholo aur message bhejo.</li>
+<li>LoopX kholo → neeche <strong>Flows</strong> tab → <strong>Start guided setup</strong> dabao.</li>
+<li><strong>Step 1:</strong> starter workflow n8n me import karke <strong>Active</strong> karo (upar Part 1).</li>
+<li><strong>Step 2:</strong> computer ka IP likho (Windows: Win+R → <code>cmd</code> → <code>ipconfig</code> → IPv4 Address). Phone ke Chrome me <code>http://IP:5678</code> khol kar check karo, n8n ka page khule to IP sahi hai.</li>
+<li><strong>Step 3:</strong> <strong>Test</strong> dabao. Hara box aaye to <strong>Save</strong>. Red box aaye to usme likha hai kya theek karna hai.</li>
+<li>Save ke baad seedha chat khul jati hai, message bhejo.</li>
 </ol>
-<p>Jitne chaho utne automations jodo. Har ek ke liye alag webhook URL.</p>
+<blockquote>
+<p>Browser (github.io) se <code>http://IP</code> nahi chalega. Wahan sirf https tunnel URL chalta hai. Phone ke liye APK app use karo.</p>
+</blockquote>
 <hr />
 <h2>Part 5: n8n ka jawab kaise bheje</h2>
 <p>Respond to Webhook node me ye JSON bhejo:</p>

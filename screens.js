@@ -11,15 +11,9 @@ const Flows={
  render(){const d=Store.d;
   $('s-flows').innerHTML=`<div class="rowh"><h1>Automations</h1><button class="primary sm" id="addFlow">+ Connect</button></div>
   ${d.apps.map(a=>`<div class="card app${a.id===d.activeApp?' act':''}"><div class="rowh"><b><i class="dot ${a.ok===true?'ok':a.ok===false?'bad':''}"></i>${esc(a.name)}</b><span class="mut">${a.id===d.activeApp?'Selected':''}</span></div>
-   <code>${esc(a.webhook)}</code><div class="btns"><button data-t="${a.id}">Test</button><button data-u="${a.id}">Use</button><button data-e="${a.id}">Edit</button><button data-x="${a.id}">Delete</button></div></div>`).join('')}
-  <div class="card" id="guide"><h3>Connect n8n in 4 steps</h3><ol>
-   <li>Download the starter workflow and import it in n8n (Workflows, then Import from file).</li>
-   <li>Open the Webhook node and copy the <b>Production URL</b>. Switch the workflow to <b>Active</b>.</li>
-   <li>On your phone, replace <code>localhost</code> with your computer's Wi-Fi IP, for example <code>http://192.168.1.20:5678/webhook/loopx</code>.</li>
-   <li>Tap Connect, paste the URL, then press Test.</li></ol>
-   <button class="primary" id="dlWf">${ico('dl')} Download starter workflow</button>
-   <p class="mut">Replies: send JSON like <code>{"reply":"text","dashboard":{"title":"Report","cards":[{"label":"Sales","value":"12"}],"table":[{"a":1}]}}</code></p></div>`;
-  $('addFlow').onclick=()=>this.edit();$('dlWf').onclick=()=>Starter.download();
+   <code>${esc(a.webhook)}</code>${/localhost|127\.0\.0\.1/.test(a.webhook)?'<small class="warn">localhost only works on the computer that runs n8n. On your phone use the computer\'s Wi-Fi IP.</small>':''}<div class="btns"><button data-t="${a.id}">Test</button><button data-u="${a.id}">Use</button><button data-e="${a.id}">Edit</button><button data-x="${a.id}">Delete</button></div></div>`).join('')}
+  <div class="card" id="guide"><h3>Not connected yet?</h3><p class="mut">Guided setup: 3 short steps, and the app tests the connection and tells you exactly what to fix.</p><button class="primary" id="startWiz">Start guided setup</button><details><summary>Reply format for n8n</summary><code class="blk">{"reply":"text","dashboard":{"title":"Report","cards":[{"label":"Sales","value":"12"}],"table":[{"a":1}]}}</code></details></div>`;
+  $('addFlow').onclick=()=>this.edit();$('startWiz').onclick=()=>Wizard.open();
   const q=(a,f)=>document.querySelectorAll(`[data-${a}]`).forEach(b=>b.onclick=()=>f(b.dataset[a]));
   q('t',id=>this.test(id));q('u',id=>{d.activeApp=id;Store.save();Main.refresh();toast('Selected')});q('e',id=>this.edit(id));
   q('x',id=>{if(d.apps.length<2)return toast('Keep at least one automation');if(!confirm('Delete this automation?'))return;d.apps=d.apps.filter(a=>a.id!==id);if(d.activeApp===id)d.activeApp=d.apps[0].id;Store.save();Main.refresh()})},
@@ -31,6 +25,6 @@ const Flows={
   Store.save();Main.refresh();return true},
  async test(id){const a=Store.app(id);toast('Testing…');
   try{await N8N.send(a,{id:'test',msgs:[]},'ping',{test:true});a.ok=true;toast('Connected: n8n replied')}
-  catch(e){a.ok=false;toast(e.message.slice(0,90))}Store.save();Main.refresh()}};
+  catch(e){a.ok=false;toast(Wizard.hint(e,a.webhook).slice(0,150))}Store.save();Main.refresh()}};
 const Outs={render(){$('s-outs').innerHTML=`<h1>Outputs</h1><p class="mut">Everything your automations sent back</p>`+(Store.d.outs.map(o=>`<div class="card row" data-o="${o.id}"><span class="dt">${fmt(o.ts)}</span><span class="grow">${esc(o.title)}<small>${esc(o.app)}</small></span></div>`).join('')||'<div class="card"><p class="mut">No outputs yet. Return a "dashboard" from n8n and it will appear here.</p></div>');
   document.querySelectorAll('[data-o]').forEach(r=>r.onclick=()=>Sheet.open(r.dataset.o))}};

@@ -3,6 +3,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   apk:
     runs-on: ubuntu-latest
@@ -13,19 +15,30 @@ jobs:
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: 17 }
       - run: npm install
-      - run: mkdir -p www && cp index.html style.css *.js manifest.webmanifest logo.png icon-192.png icon-512.png www/
-      - run: npx cap add android
-      - run: |
-          mkdir -p assets
-          cp icon-1024.png assets/icon-only.png
-          cp icon-foreground-1024.png assets/icon-foreground.png
-          cp splash-2732.png assets/splash.png
-          cp splash-2732.png assets/splash-dark.png
-          npx --yes @capacitor/assets generate --android --iconBackgroundColor '#000000' --iconBackgroundColorDark '#000000' --splashBackgroundColor '#000000' --splashBackgroundColorDark '#000000'
+      - run: mkdir -p www && cp index.html style.css *.js manifest.webmanifest logo.png icon-192.png icon-512.png icon-1024.png www/
+      - run: npx cap add android && npx cap sync android
+      - name: Add LoopX icon and splash
         continue-on-error: true
-      - run: npx cap sync android
-      - run: cd android && chmod +x gradlew && ./gradlew assembleDebug
+        run: pip install pillow && python3 brand_android.py
+      - name: Build APK
+        id: build
+        continue-on-error: true
+        run: cd android && chmod +x gradlew && ./gradlew assembleDebug
+      - name: Fallback build with default icon
+        if: steps.build.outcome == 'failure'
+        run: |
+          echo "::warning::Custom icon or splash broke the build. Built with the default icon instead."
+          rm -rf android && npx cap add android && npx cap sync android
+          cd android && chmod +x gradlew && ./gradlew assembleDebug
+      - run: cp android/app/build/outputs/apk/debug/app-debug.apk loopx.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: LoopX-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: loopx-apk
+          path: loopx.apk
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: loopx-latest
+          name: LoopX latest APK
+          body: Download loopx.apk below and install it.
+          files: loopx.apk
+          make_latest: true

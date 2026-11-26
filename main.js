@@ -1,7 +1,7 @@
 // Start-up: router + events
 const Main={
  go(s,guide){document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('on',e.id==='s-'+s));document.querySelectorAll('#nav [data-go]').forEach(b=>b.classList.toggle('on',b.dataset.go===s&&!b.classList.contains('fab')));
-  document.body.dataset.s=s;this.refresh();this.closeAll();if(s==='flows'&&guide)$('guide').scrollIntoView()},
+  document.body.dataset.s=s;this.refresh();this.closeAll();if(s==='flows'&&guide)Wizard.open()},
  closeAll(){document.body.classList.remove('openL','openR')},
  pill(){const a=Store.app();$('pill').innerHTML=`<i class="dot ${a.ok===true?'ok':a.ok===false?'bad':''}"></i>${esc(a.name)}`},
  refresh(){Sidebar.render();Home.render();Flows.render();Outs.render();Chat.render();this.pill();this.bind()},
