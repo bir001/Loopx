@@ -1,0 +1,1 @@
+{"appId":"com.bir.loopx","appName":"LoopX","webDir":"www","server":{"androidScheme":"http","cleartext":true},"plugins":{"CapacitorHttp":{"enabled":true}}}
