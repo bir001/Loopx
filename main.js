@@ -14,6 +14,6 @@ const Main={
   $('input').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&innerWidth>900){e.preventDefault();Chat.send()}});
   $('input').addEventListener('input',e=>{e.target.style.height='auto';e.target.style.height=Math.min(e.target.scrollHeight,150)+'px'});
   $('dlg').addEventListener('close',()=>{});$('fSave').onclick=e=>{if(!Flows.save())e.preventDefault()};
-  this.go('home');
+  Voice.init();Backup.init();this.go('home');
   if('serviceWorker' in navigator&&!window.Capacitor&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{})}};
 Main.init();

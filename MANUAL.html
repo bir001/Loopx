@@ -1,0 +1,146 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LoopX Manual</title><style>body{font:16px/1.6 system-ui;max-width:720px;margin:auto;padding:16px;color:#0d2a3a}code,pre{background:#eef5f9;border-radius:6px;padding:2px 6px}pre{padding:12px;overflow:auto}table{border-collapse:collapse;width:100%}td,th{border:1px solid #cfe3ec;padding:6px;text-align:left}h1,h2{letter-spacing:-.01em}</style></head><body><h1>LoopX – Start Karne ka Pura Manual</h1>
+<p>LoopX ek chat-style app hai. Tum message bhejte ho, wo tumhare <strong>n8n</strong> automation ko jata hai, aur jawab + dashboard wapas app me aata hai.</p>
+<ul>
+<li><strong>Left panel:</strong> history, themes, menu</li>
+<li><strong>Beech me:</strong> chat (jo bhejna hai wahan likho)</li>
+<li><strong>Right panel:</strong> n8n ka output dashboard</li>
+</ul>
+<hr />
+<h2>Part 1: n8n taiyar karo (computer par)</h2>
+<ol>
+<li>n8n kholo: <code>http://localhost:5678</code></li>
+<li><strong>Workflows → Import from file</strong> → <code>loopx-starter-workflow.json</code> chuno.</li>
+<li>Workflow me <strong>Webhook</strong> node kholo. <strong>Production URL</strong> copy karo. Aisa dikhega: <code>http://localhost:5678/webhook/loopx</code></li>
+<li>Upar kone me workflow ko <strong>Active</strong> karo (toggle on).</li>
+<li>Computer ka <strong>Wi-Fi IP</strong> nikalo:</li>
+<li>Windows: Command Prompt me <code>ipconfig</code> → "IPv4 Address" (jaise <code>192.168.1.20</code>)</li>
+<li>Mac/Linux: <code>ifconfig</code> ya Settings → Wi-Fi</li>
+<li>Windows Firewall me <strong>port 5678</strong> allow karo (nahi to phone se connect nahi hoga).</li>
+</ol>
+<p>Phone ke liye URL ban gaya: <code>http://192.168.1.20:5678/webhook/loopx</code></p>
+<blockquote>
+<p>Dhyan: phone aur computer <strong>ek hi Wi-Fi</strong> par hone chahiye. Computer on rehna chahiye.</p>
+</blockquote>
+<hr />
+<h2>Part 2: GitHub par app daalo (phone se)</h2>
+<ol>
+<li><code>loopx.zip</code> ko phone ke Files app me <strong>Extract</strong> karo. Ek <code>loopx</code> folder banega.</li>
+<li>GitHub me naya repository banao (jaise <code>loopx</code>).</li>
+<li><strong>Add file → Upload files</strong> → folder ke <strong>saare files select</strong> karo → <strong>Commit changes</strong>.</li>
+<li><strong>Ek baar ka kaam:</strong> APK banane ki file. <strong>Add file → Create new file</strong> dabao. Naam me likho:
+   <code>.github/workflows/build-apk.yml</code>
+   (slash likhte hi folder ban jate hain). Folder me jo <code>build-apk.yml</code> hai uska poora text copy karke paste karo. Commit karo.</li>
+<li>(Optional, website ke liye) <strong>Settings → Pages → Branch: main → Save</strong>. Site ka link wahan dikhega.</li>
+</ol>
+<hr />
+<h2>Part 3: APK download aur install</h2>
+<ol>
+<li>Repo ka <strong>Actions</strong> tab kholo. "Build LoopX APK" chal raha hoga (3-5 minute).</li>
+<li>Hara tick aane par us run ko kholo. Neeche <strong>Artifacts → LoopX-apk</strong> dabao. Download hoga.</li>
+<li>Zip kholo. Andar <code>app-debug.apk</code> milegi.</li>
+<li>APK par tap karo → "Install unknown apps" allow karo → Install.</li>
+</ol>
+<hr />
+<h2>Part 4: App me n8n jodo</h2>
+<ol>
+<li>LoopX kholo → neeche <strong>Flows</strong> tab.</li>
+<li><strong>+ Connect</strong> dabao.</li>
+<li>Name likho (jaise "Lead follow-up"), webhook URL paste karo (Part 1 ka phone wala URL). Token optional hai.</li>
+<li><strong>Save</strong> → phir <strong>Test</strong> dabao. Hara dot aur "Connected" aaye to sab theek.</li>
+<li>Beech ke <strong>+</strong> button se <strong>New Chat</strong> kholo aur message bhejo.</li>
+</ol>
+<p>Jitne chaho utne automations jodo. Har ek ke liye alag webhook URL.</p>
+<hr />
+<h2>Part 5: n8n ka jawab kaise bheje</h2>
+<p>Respond to Webhook node me ye JSON bhejo:</p>
+<pre><code class="language-json">{
+  &quot;reply&quot;: &quot;Chat me ye text dikhega&quot;,
+  &quot;dashboard&quot;: {
+    &quot;title&quot;: &quot;Aaj ka report&quot;,
+    &quot;cards&quot;: [{ &quot;label&quot;: &quot;Sales&quot;, &quot;value&quot;: &quot;12&quot; }],
+    &quot;table&quot;: [{ &quot;item&quot;: &quot;A&quot;, &quot;qty&quot;: 3 }]
+  }
+}
+</code></pre>
+<ul>
+<li><code>reply</code> chat me aata hai, <code>dashboard</code> right panel me khulta hai.</li>
+<li>Dashboard me <code>cards</code>, <code>table</code>, <code>text</code> ya poora <code>html</code> de sakte ho (sab optional).</li>
+<li>Webhook ko ye milta hai: <code>message</code>, <code>chatId</code>, <code>appId</code>, <code>history</code>.</li>
+</ul>
+<hr />
+<h2>Part 6: App ke features</h2>
+<table>
+<thead>
+<tr>
+<th>Kya</th>
+<th>Kahan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Theme badalna (6 theme)</td>
+<td>Left drawer (☰)</td>
+</tr>
+<tr>
+<td>Purani chat kholna / delete</td>
+<td>Left drawer → History</td>
+</tr>
+<tr>
+<td>Purane outputs</td>
+<td>Outputs tab</td>
+</tr>
+<tr>
+<td>Voice se likhna</td>
+<td>Chat me mic button</td>
+</tr>
+<tr>
+<td>Jawab copy karna</td>
+<td>Jawab ke neeche Copy</td>
+</tr>
+<tr>
+<td>Data ka backup</td>
+<td>Drawer → Backup → Export / Import</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Update kaise karein</h2>
+<ol>
+<li>Jo file badli hai wahi GitHub me upload karo (same naam, replace ho jayegi).</li>
+<li>Commit hote hi APK dobara ban jayegi (Actions tab). Naya APK install karo, purana data bana rahega.</li>
+</ol>
+<h2>Dikkat aaye to</h2>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Karo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Cannot reach..."</td>
+<td>Phone/computer ek Wi-Fi par? IP sahi? Firewall port 5678 open?</td>
+</tr>
+<tr>
+<td>Error 404</td>
+<td>Workflow <strong>Active</strong> karo. Test URL (<code>webhook-test</code>) mat use karo, Production URL lo</td>
+</tr>
+<tr>
+<td>Error 403 / CORS</td>
+<td>Webhook node → Options → Allowed Origins → <code>*</code></td>
+</tr>
+<tr>
+<td>Jawab aa raha par dashboard nahi</td>
+<td>JSON me <code>dashboard</code> key hai? Valid JSON hai?</td>
+</tr>
+<tr>
+<td>Mic nahi dikh raha</td>
+<td>Is phone ka browser/WebView voice support nahi karta, baaki app chalega</td>
+</tr>
+<tr>
+<td>Data gaya</td>
+<td>Drawer → Backup → Import se purani backup file lo</td>
+</tr>
+</tbody>
+</table></body></html>

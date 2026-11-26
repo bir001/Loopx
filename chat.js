@@ -7,6 +7,7 @@ const Chat={
   box.scrollTop=box.scrollHeight},
  bubble(m){const d=document.createElement('div');d.className='m '+(m.role==='me'?'me':'bot')+(m.err?' err':'');d.textContent=m.text;
   if(m.out){const b=document.createElement('button');b.className='chip';b.textContent='View output';b.onclick=()=>Sheet.open(m.out);d.append(document.createElement('br'),b)}
+  if(m.role!=='me'&&!m.err&&m.text!=='Working…'){const c=document.createElement('button');c.className='chip';c.textContent='Copy';c.onclick=()=>navigator.clipboard.writeText(m.text).then(()=>toast('Copied'));d.append(' ',c)}
   $('msgs').appendChild(d);d.scrollIntoView({block:'end'});return d},
  async send(){const inp=$('input'),text=inp.value.trim();if(!text)return;
   const app=Store.app(),c=Store.chat()||Store.newChat();c.appId=app.id;
